@@ -1,37 +1,48 @@
-import React from 'react';
+import React from "react";
 
-const icons = [
-  { name: "All", src: "burger.png" },
-  { name: "Fast food", src: "pizza.png" },
-  { name: "Drinks", src: "juices.png" },
-  { name: "Spicy", src: "noodle.png" },
-  { name: "Sweets", src: "sweets.png" },
-];
-
-const Categories = () => {
+function Categories({ maindata, setProductData }) {
+  const icons = [
+    { name: "All", src: "burger.png" },
+    { name: "Fast food", src: "pizza.png" },
+    { name: "Drinks", src: "juices.png" },
+    { name: "Spicy", src: "noodle.png" },
+    { name: "Sweets", src: "sweets.png" },
+  ];
+  const sort = (name) => {
+    let temp = maindata.filter(
+      (item) => item.mealType[0].toLowerCase() == name.toLowerCase()
+    );
+    setProductData(temp);
+    if (name == "All") {
+      setProductData(maindata);
+    }
+    console.log(temp);
+  };
   return (
-    <div className="px-4 py-6">
-      <div className="text-2xl text-black font-bold mb-4 p-4">Categories</div>
+    <div>
+      <div className="mx-[10%] my-5 text-2xl font-bold">Categories</div>
 
-      <div className="flex flex-wrap gap-6 md:gap-40 justify-center md:justify-start">
-        {icons.map((item) => (
+      <div className="flex flex-wrap justify-around gap-6 px-4 sm:px-8 md:px-[10%]">
+        {icons.map((cat, i) => (
           <div
-            className="flex flex-col items-center gap-2 cursor-pointer font-medium"
-            key={item.name}
+            key={i}
+            onClick={() => sort(cat.label)}
+            className="flex flex-col items-center w-24 sm:w-28 md:w-32"
           >
-            <div className="bg-amber-300 border border-amber-300 rounded-3xl p-4 w-20 h-20 flex items-center justify-center">
-              <img
-                src={item.src}
-                alt={item.name}
-                className="w-10 h-10 object-contain"
-              />
+            <div
+              style={{ backgroundImage: `url(${cat.img})` }}
+              className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-center bg-cover cursor-pointer hover:bg-gray-200 hover:shadow-md hover:shadow-gray-400 transition-all duration-300"
+            />
+            <div className="text-center mt-2 text-sm sm:text-base">
+              {cat.label}
             </div>
-            <div className="text-sm md:text-base">{item.name}</div>
           </div>
         ))}
       </div>
+
+      <hr className="mx-[5%] my-6 opacity-20" />
     </div>
   );
-};
+}
 
 export default Categories;
